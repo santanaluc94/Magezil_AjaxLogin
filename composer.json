@@ -1,0 +1,13 @@
+{
+    "name": "module-login-popup",
+    "description": "Custom module to Login Popup.",
+    "type": "magento2-module",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+          "CustomModules\\LoginPopup\\": ""
+        }
+    }
+}
