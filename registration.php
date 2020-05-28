@@ -2,4 +2,4 @@
 
 use Magento\Framework\Component\ComponentRegistrar;
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'CustomModules_LoginPopup', __DIR__);
+ComponentRegistrar::register(ComponentRegistrar::MODULE, 'CustomModules_AjaxLogin', __DIR__);
