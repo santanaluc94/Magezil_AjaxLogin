@@ -3,34 +3,64 @@
 namespace CustomModules\AjaxLogin\Plugin;
 
 use Magento\Customer\Model\Context;
+use Magento\Framework\App\Http\Context as HttpContext;
+use CustomModules\AjaxLogin\Helper\Data;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Customer\Block\Account\AuthorizationLink;
 
 class ModifySignInHrefPlugin
 {
     /**
      * Customer session
      *
-     * @var \Magento\Framework\App\Http\Context
+     * @var HttpContext
      */
     protected $httpContext;
 
     /**
-     * ModifySignInHrefPlugin constructor.
+     * Custom Helper Data
      *
-     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @var Data
+     */
+    protected $helper;
+
+    /**
+     * Store Manager Interface
+     *
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * Modify Sign In Href Plugin constructor.
+     *
+     * @param HttpContext $httpContext
+     * @param Data $helper
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Framework\App\Http\Context $httpContext
+        HttpContext $httpContext,
+        Data $helper,
+        StoreManagerInterface $storeManager
     ) {
         $this->httpContext = $httpContext;
+        $this->helper = $helper;
+        $this->storeManager = $storeManager;
     }
 
     /**
-     * @param \Magento\Customer\Block\Account\AuthorizationLink $subject
+     * Set link url to header button 'Sign in'
+     *
+     * @param AuthorizationLink $subject
      * @param $result
      * @return string
      */
-    public function afterGetHref(\Magento\Customer\Block\Account\AuthorizationLink $subject, $result)
+    public function afterGetHref(AuthorizationLink $subject, $result): string
     {
+        if (!$this->helper->isEnabled()) {
+            return $this->storeManager->getStore()->getUrl('customer/account/login');
+        }
+
         if (!$this->isLoggedIn()) {
             $result = '#';
         }
@@ -38,9 +68,11 @@ class ModifySignInHrefPlugin
     }
 
     /**
+     * Check customer is logged in
+     *
      * @return bool
      */
-    public function isLoggedIn()
+    public function isLoggedIn(): bool
     {
         return $this->httpContext->getValue(Context::CONTEXT_AUTH);
     }
