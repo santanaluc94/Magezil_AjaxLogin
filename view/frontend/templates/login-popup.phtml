@@ -1,7 +1,7 @@
-<div class="block-authentication" id="customer-login-popup" style="display: none">
-    <div class="block block-new-customer" data-label="or">
+<div class="block-authentication-lucas" id="customer-login-popup" style="display: none">
+    <div class="block block-new-customer" style="float: left; width: 50%; box-sizing: border-box;">
         <div class="block-title">
-            <span id="block-new-customer-heading" role="heading" aria-level="2"><?= __('My Create an Account') ?></span>
+            <span id="block-new-customer-heading" aria-level="1"><?= __('My Create an Account') ?></span>
         </div>
         <div class="block-content" aria-labelledby="block-new-customer-heading">
             <p><?= __('Creating an account has many benefits:') ?></p>
@@ -19,12 +19,12 @@
             </div>
         </div>
     </div>
-    <div class="block block-customer-login" data-label="or">
+    <div class="block block-customer-login" style="float: left; width: 50%; box-sizing: border-box;">
         <div class="block-title">
-            <strong id="block-customer-ajaxlogin-heading" role="heading" aria-level="2"><?= __('Login') ?></strong>
+            <strong id="block-customer-ajaxlogin-heading" aria-level="2"><?= __('Login') ?></strong>
         </div>
         <div class="block-content" aria-labelledby="block-customer-login-heading">
-            <form class="form form-login" method="post" id="ajaxlogin-form" action="<?= 'ajaxlogin/ajax/login' ?>">
+            <form class="form form-login" method="post" id="ajaxlogin-form" action="<?= $block->getUrl('ajaxlogin/ajax/login') ?>">
                 <div class="fieldset login">
                     <div class="field email required">
                         <label class="label" for="ajaxlogin-email">
@@ -50,7 +50,7 @@
                         </div>
                         <div class="secondary">
                             <a class="action" id="forgotpassword-popup">
-                                <span><?= __('Forgot Your Password?') ?>></span>
+                                <span><?= __('Forgot Your Password?') ?></span>
                             </a>
                         </div>
                     </div>
