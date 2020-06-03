@@ -5,7 +5,8 @@ define([
     'mage/storage',
     'mage/translate',
     'mage/mage',
-    'jquery/ui'
+    'jquery/ui',
+    'uiComponent'
 ], function ($, modal, customerData, storage, $t) {
     'use strict';
     console.log('Ajax Login actived');
@@ -28,33 +29,35 @@ define([
 
     $(document).ready(function () {
         $('#ajaxlogin-form').submit(function (e) {
-            let customurl = "<?= $this->getUrl().'ajax_login/ajax/login'?>";
+            e.preventDefault();
+            let actionUrlForm = $('#ajaxlogin-form').attr('action');
             $.ajax({
-                url: customurl,
+                url: actionUrlForm,
                 type: 'POST',
                 dataType: 'json',
                 data: $(e.target).serializeArray(),
                 showLoader: true,
                 success: function (response) {
-                    var self = this;
-                    this.element.find('.messages').html('');
+                    $('.messages').html('');
                     if (response.errors) {
-                        $('<div class="message message-error error"><div>' + response.message + '</div></div>').appendTo(this.element.find('.messages'));
+                        $('<div class="message message-error error"><div>' + response.message + '</div></div>').appendTo($('.messages'));
                     } else {
-                        $('<div class="message message-success success"><div>' + response.message + '</div></div>').appendTo(this.element.find('.messages'));
+                        $('<div class="message message-success success"><div>' + response.message + '</div></div>').appendTo($('.messages'));
                     }
-                    this.element.find('.messages .message').show();
+
+                    $('.messages').show();
                     setTimeout(function () {
                         if (!response.errors) {
-                            self.element.modal('closeModal');
-                            window.location.href = locationHref;
+                            $('#customer-login-popup').modal('closeModal');
+                            location.reload();
                         }
-                    }, 800);
+                    }, 500);
                 },
-                error: function () {
-                    this.element.find('.messages').html('');
-                    this._displayMessages('message-error error', $t('An error occurred, please try again later.'));
-                    this.element.find('.messages .message').show();
+                error: function (response) {
+                    $('body').loader('hide');
+                    $('.messages').html('');
+                    $('<div class="message message-error error"><div>' + response.message + '</div></div>').appendTo($('.messages'));
+                    $('.messages').show();
                 }
             });
         });

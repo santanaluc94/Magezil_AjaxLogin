@@ -4,24 +4,16 @@ namespace CustomModules\AjaxLogin\Controller\Ajax;
 
 use Magento\Customer\Controller\AbstractAccount;
 use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
-use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Model\Url as CustomerUrl;
-use Magento\Customer\Model\Account\Redirect as AccountRedirect;
 use Magento\Framework\Controller\Result\RawFactory;
-use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
-use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\App\Request\InvalidRequestException;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Phrase;
-use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Controller\Result\JsonFactory;
 
 /**
  * Class Login
@@ -32,9 +24,7 @@ use Magento\Framework\App\ObjectManager;
  * @license  NO-LICENSE #
  * @link     http://github.com/santanaluc94
  */
-class Login extends AbstractAccount implements
-    CsrfAwareActionInterface,
-    HttpPostActionInterface
+class Login extends AbstractAccount implements HttpPostActionInterface
 {
     /**
      * Customer Session
@@ -58,13 +48,6 @@ class Login extends AbstractAccount implements
     protected $customerHelperData;
 
     /**
-     * Account Redirect
-     *
-     * @var AccountRedirect
-     */
-    protected $accountRedirect;
-
-    /**
      * Raw Factory
      *
      * @var RawFactory
@@ -72,25 +55,11 @@ class Login extends AbstractAccount implements
     protected $rawFactory;
 
     /**
-     * Scope Config Interface
+     * Json Factory
      *
-     * @var ScopeConfigInterface
+     * @var JsonFactory
      */
-    protected $scopeConfig;
-
-    /**
-     * Cookie Metadata Factory
-     *
-     * @var CookieMetadataFactory
-     */
-    protected $cookieMetadataFactory;
-
-    /**
-     * PHP Cokkie Manager
-     *
-     * @var PhpCookieManager
-     */
-    protected $cookieMetadataManager;
+    protected $resultJsonFactory;
 
     /**
      * Login constructor.
@@ -99,104 +68,23 @@ class Login extends AbstractAccount implements
      * @param Session $customerSession
      * @param AccountManagementInterface $customerAccountManagement
      * @param CustomerUrl $customerHelperData
-     * @param AccountRedirect $accountRedirect
      * @param RawFactory $rawFactory
-     * @param ScopeConfigInterface $scopeConfig
-     * @param PhpCookieManager $cookieManager
-     * @param CookieMetadataFactory $cookieMetadataFactory
+     * @param JsonFactory $resultJsonFactory
      */
     public function __construct(
         Context $context,
         Session $customerSession,
         AccountManagementInterface $customerAccountManagement,
         CustomerUrl $customerHelperData,
-        AccountRedirect $accountRedirect,
         RawFactory $rawFactory,
-        ScopeConfigInterface $scopeConfig,
-        PhpCookieManager $cookieManager,
-        CookieMetadataFactory $cookieMetadataFactory
+        JsonFactory $resultJsonFactory
     ) {
         $this->session = $customerSession;
         $this->customerAccountManagement = $customerAccountManagement;
         $this->customerUrl = $customerHelperData;
-        $this->accountRedirect = $accountRedirect;
         $this->resultRawFactory = $rawFactory;
-        $this->scopeConfig = $scopeConfig;
-        $this->cookieManager = $cookieManager;
-        $this->cookieMetadataFactory = $cookieMetadataFactory;
+        $this->resultJsonFactory = $resultJsonFactory;
         parent::__construct($context);
-    }
-
-    /**
-     * Get scope config
-     *
-     * @return ScopeConfigInterface
-     */
-    protected function getScopeConfig()
-    {
-        if (!($this->scopeConfig instanceof ScopeConfigInterface)) {
-            return ObjectManager::getInstance()
-                ->get(ScopeConfigInterface::class);
-        } else {
-            return $this->scopeConfig;
-        }
-    }
-
-    /**
-     * Retrieve cookie manager
-     *
-     * @return PhpCookieManager
-     */
-    protected function getCookieManager()
-    {
-        if (!$this->cookieMetadataManager) {
-            $this->cookieMetadataManager = ObjectManager::getInstance()
-                ->get(PhpCookieManager::class);
-        }
-        return $this->cookieMetadataManager;
-    }
-
-    /**
-     * Retrieve cookie metadata factory
-     *
-     * @return CookieMetadataFactory
-     */
-    protected function getCookieMetadataFactory()
-    {
-        if (!$this->cookieMetadataFactory) {
-            $this->cookieMetadataFactory = ObjectManager::getInstance()
-                ->get(CookieMetadataFactory::class);
-        }
-        return $this->cookieMetadataFactory;
-    }
-
-    /**
-     * Create csrf Calidation exception.
-     *
-     * @param RequestInterface $request
-     * @return null|InvalidRequestException
-     */
-    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
-    {
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setPath('*/*/');
-
-        return new InvalidRequestException(
-            $resultRedirect,
-            [new Phrase('Invalid Form Key. Please refresh the page.')]
-        );
-    }
-
-    /**
-     * Validate for csrf.
-     *
-     * @param RequestInterface $request
-     * @return null|boolean
-     */
-    public function validateForCsrf(RequestInterface $request): ?bool
-    {
-        return null;
     }
 
     /**
@@ -214,8 +102,6 @@ class Login extends AbstractAccount implements
         } catch (\Exception $e) {
             return $resultRaw->setHttpResponseCode($httpBadRequestCode);
         }
-        var_dump($this->getRequest()->isXmlHttpRequest());
-        die('asd');
 
         if (!$credentials || $this->getRequest()->getMethod() !== 'POST' || !$this->getRequest()->isXmlHttpRequest()) {
             return $resultRaw->setHttpResponseCode($httpBadRequestCode);
@@ -232,27 +118,10 @@ class Login extends AbstractAccount implements
                     );
 
                     $this->session->setCustomerDataAsLoggedIn($customer);
-
-                    if ($this->getCookieManager()->getCookie('mage-cache-sessid')) {
-                        $metadata = $this->getCookieMetadataFactory()
-                            ->createCookieMetadata();
-                        $metadata->setPath('/');
-                        $this->getCookieManager()
-                            ->deleteCookie('mage-cache-sessid', $metadata);
-                    }
-
-                    $redirectUrl = $this->accountRedirect->getRedirectCookie();
-
-                    if (!$this->getScopeConfig()->getValue('customer/startup/redirect_dashboard') && $redirectUrl) {
-                        $this->accountRedirect->clearRedirectCookie();
-
-                        $resultRedirect = $this->resultRedirectFactory->create();
-                        $resultRedirect->setUrl(
-                            $this->_redirect->success($redirectUrl)
-                        );
-                        $this->messageManager->addSuccess(__('Login successful'));
-                        return $resultRedirect;
-                    }
+                    $response = [
+                        'errors' => false,
+                        'message' => __('Login successful.')
+                    ];
                 } catch (EmailNotConfirmedException $e) {
                     $value = $this->customerUrl->getEmailConfirmationUrl($email);
                     $message = __(
@@ -260,13 +129,23 @@ class Login extends AbstractAccount implements
                         <a href="%1">Click here</a> to resend confirmation email.',
                         $value
                     );
+                    $response = [
+                        'errors' => true,
+                        'message' => $message,
+                    ];
                 } catch (AuthenticationException $e) {
-                    $message = __(
-                        'The account sign-in was incorrect or your account is disabled temporarily.
-                        Please wait and try again later.'
-                    );
+                    $response = [
+                        'errors' => true,
+                        'message' => __(
+                            'The account sign-in was incorrect or your account is disabled temporarily.
+                            Please wait and try again later.'
+                        )
+                    ];
                 } catch (LocalizedException $e) {
-                    $message = $e->getMessage();
+                    $response = [
+                        'errors' => true,
+                        'message' => $e->getMessage(),
+                    ];
                 } finally {
                     if (isset($message)) {
                         $this->messageManager->addErrorMessage($message);
@@ -280,6 +159,7 @@ class Login extends AbstractAccount implements
             }
         }
 
-        return $this->accountRedirect->getRedirect();
+        $resultJson = $this->resultJsonFactory->create();
+        return $resultJson->setData($response);
     }
 }
