@@ -1,7 +1,13 @@
-<div class="block-authentication-lucas" id="customer-login-popup" style="display: none">
-    <div class="block block-new-customer" style="float: left; width: 50%; box-sizing: border-box;">
+<style>
+
+</style>
+
+<div class="custom-block-authentication" id="customer-login-popup" style="display: none;">
+    <div class="block block-new-customer">
         <div class="block-title">
-            <span id="block-new-customer-heading" aria-level="1"><?= __('My Create an Account') ?></span>
+            <span class="custom-popup-title" id="block-new-customer-heading" aria-level="1">
+                <?= __('Checkout as a new customer') ?>
+            </span>
         </div>
         <div class="block-content" aria-labelledby="block-new-customer-heading">
             <p><?= __('Creating an account has many benefits:') ?></p>
@@ -19,16 +25,18 @@
             </div>
         </div>
     </div>
-    <div class="block block-customer-login" style="float: left; width: 50%; box-sizing: border-box;">
+    <div class="block-customer-login">
         <div class="block-title">
-            <strong id="block-customer-ajaxlogin-heading" aria-level="2"><?= __('Login') ?></strong>
+            <span class="custom-popup-title" id="block-customer-ajaxlogin-heading" aria-level="2">
+                <?= __('Checkout using your account') ?>
+            </span>
         </div>
         <div class="block-content" aria-labelledby="block-customer-login-heading">
             <form class="form form-login" method="post" id="ajaxlogin-form" action="<?= $block->getUrl('ajaxlogin/ajax/login') ?>">
                 <div class="fieldset login">
                     <div class="field email required">
                         <label class="label" for="ajaxlogin-email">
-                            <span><?= __('Email Address') ?></span>
+                            <span class="custom-field"><?= __('Email Address') ?></span>
                         </label>
                         <div class="control">
                             <input name="username" id="ajaxlogin-email" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}">
@@ -36,24 +44,25 @@
                     </div>
                     <div class="field password required">
                         <label for="ajaxlogin-pass" class="label">
-                            <span><?= __('Password') ?></span>
+                            <span class="custom-field"><?= __('Password') ?></span>
                         </label>
                         <div class="control">
                             <input name="password" type="password" class="input-text" id="ajaxlogin-pass" data-validate="{required:true}">
                         </div>
                     </div>
                     <div class="actions-toolbar">
-                        <div class="primary">
+                        <div class="secondary link-forgot-password">
+                            <a class="action link-forgot-password" id="forgotpassword-popup">
+                                <span><?= __('Forgot Your Password?') ?></span>
+                            </a>
+                        </div>
+                        <div class="primary field-submit-form">
                             <button type="submit" class="action action-login secondary" name="send" id="ajaxlogin-send">
                                 <span><?= __('Sign In') ?></span>
                             </button>
                         </div>
-                        <div class="secondary">
-                            <a class="action" id="forgotpassword-popup">
-                                <span><?= __('Forgot Your Password?') ?></span>
-                            </a>
-                        </div>
-                        <div class="messages"></div>
+                    </div>
+                    <div class="messages">
                     </div>
                 </div>
             </form>
