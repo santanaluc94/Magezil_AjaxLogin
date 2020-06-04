@@ -2,6 +2,10 @@
     width: 55% !important;
 }
 
+.modal-content {
+    position: relative;
+}
+
 /* Title */
 div.custom-block-authentication {
     border-bottom: solid 1px #c2c2c2;
@@ -12,7 +16,8 @@ div.block-new-customer {
     width: 47.5%;
     float: left;
     box-sizing: border-box;
-    height: 330px;
+    height: 300px;
+    position: relative;
 }
 
 div.block-customer-login {
@@ -22,7 +27,8 @@ div.block-customer-login {
     box-sizing: border-box;
     padding-left: 2.5%;
     border-left: 1px solid #c2c2c2;
-    height: 330px;
+    height: 300px;
+    position: relative;
 }
 
 div.block-title {
@@ -34,7 +40,7 @@ span.custom-popup-title {
     font-size: 2.6rem;
 }
 
-/* Form */
+/* Form Login */
 span.custom-field {
     font-weight: 400;
 }
@@ -60,15 +66,16 @@ input.input-text {
 }
 
 div.actions-toolbar {
-    position: relative;
-    height: 50px;
-    margin-top: 40px;
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
 }
 
 div.link-forgot-password {
     left: 0;
     position: absolute;
-    top: 25%;
+    top: 7px;
 }
 
 a.link-forgot-password {
@@ -86,9 +93,22 @@ button.action-login {
     line-height: 1.6rem;
     font-size: 1.6rem;
     height: 100%;
-    margin-right: 0;
+    right: 0;
+    width: 90px;
 }
 
 div.message-popup {
     margin-top: 40px;
+}
+
+/* Instructions to create account */
+div.primary {
+    height: 100%;
+}
+
+button.action-register {
+    height: 100%;
+}
+span.create-account {
+    font-size: 1.6rem;
 }
