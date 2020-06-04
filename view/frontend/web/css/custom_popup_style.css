@@ -6,6 +6,10 @@
     position: relative;
 }
 
+.modals-overlay {
+    z-index: 800 !important;
+}
+
 /* Title */
 div.custom-block-authentication {
     border-bottom: solid 1px #c2c2c2;

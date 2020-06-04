@@ -18,15 +18,30 @@ define([
         buttons: false,
     };
 
-    var popup = modal(options, $('#customer-login-popup'));
+    var popupLogin = modal(options, $('#customer-login-popup'));
+    var popupForgotPassword = modal(options, $('#customer-forgotpassword-popup'));
 
-    // Show the login form in a popup when clicking on the sign in text
+    /**
+     * Show the login form in a popup when clicking on the sign in text
+     */
     $('body').on('click', '.custom-ajax-login-popup, ' + '#customer-sign-in-popup', function () {
-        $('#customer-register-popup').modal('closeModal');
+        // $('#customer-register-popup').modal('closeModal');
         $('#customer-forgotpassword-popup').modal('closeModal');
         $('#customer-login-popup').modal('openModal');
     });
 
+    /**
+     * Show the forgot password in a popup
+     */
+    $('body').on('click', '#forgotpassword-popup', function () {
+        // $('#customer-register-popup').modal('closeModal');
+        $('#customer-login-popup').modal('closeModal');
+        $('#customer-forgotpassword-popup').modal('openModal');
+    });
+
+    /**
+     * Ajax do login
+     */
     $(document).ready(function () {
         $('#ajaxlogin-form').submit(function (e) {
             e.preventDefault();
