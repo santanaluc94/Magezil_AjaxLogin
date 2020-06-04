@@ -40,9 +40,9 @@ define([
                 success: function (response) {
                     $('.messages').html('');
                     if (response.errors) {
-                        $('<div class="message message-error error"><div>' + response.message + '</div></div>').appendTo($('.messages'));
+                        $('<div class="message message-error error message-popup"><div><span>' + response.message + '</span></div></div>').appendTo($('.messages'));
                     } else {
-                        $('<div class="message message-success success"><div>' + response.message + '</div></div>').appendTo($('.messages'));
+                        $('<div class="message message-success success message-popup"><div><span>' + response.message + '</span></div></div>').appendTo($('.messages'));
                     }
 
                     $('.messages').show();
@@ -56,7 +56,7 @@ define([
                 error: function (response) {
                     $('body').loader('hide');
                     $('.messages').html('');
-                    $('<div class="message message-error error"><div>' + response.message + '</div></div>').appendTo($('.messages'));
+                    $('<div class="message message-error error message-popup"><div><span>' + response.message + '</span></div></div>').appendTo($('.messages'));
                     $('.messages').show();
                 }
             });
