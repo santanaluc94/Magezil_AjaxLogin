@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="authorization-link-login">
+            <arguments>
+                <argument name="class" xsi:type="string">custom-ajax-login-popup</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\Customer\Block\Account\AuthenticationPopup" name="customer-popup-login" template="CustomModules_AjaxLogin::login-popup.phtml" />
+            <!-- <block class="Itelios\LoginModal\Block\Form\Register" name="customer-popup-register" template="CustomModules_AjaxLogin::register.phtml" /> -->
+            <!-- <block class="Itelios\LoginModal\Block\Form\Forgotpassword" name="customer-popup-forgotpassword" template="CustomModules_AjaxLogin::forgotpassword.phtml" /> -->
+        </referenceContainer>
+    </body>
+</page>

@@ -2,148 +2,164 @@
 
 namespace CustomModules\AjaxLogin\Controller\Ajax;
 
+use Magento\Customer\Controller\AbstractAccount;
+use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Model\Url as CustomerUrl;
+use Magento\Framework\Controller\Result\RawFactory;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Exception\EmailNotConfirmedException;
-use Magento\Framework\Exception\InvalidEmailOrPasswordException;
-use Magento\Customer\Model\Account\Redirect as AccountRedirect;
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Controller\Result\JsonFactory;
 
 /**
- * Login controller
+ * Class Login
  *
- * @method \Magento\Framework\App\RequestInterface getRequest()
- * @method \Magento\Framework\App\Response\Http getResponse()
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @category Magento
+ * @package  CustomModules_AjaxLogin
+ * @author   Lucas Teixeira dos Santos Santana <santanaluc94@gmail.com>
+ * @license  NO-LICENSE #
+ * @link     http://github.com/santanaluc94
  */
-class Login extends \Magento\Framework\App\Action\Action
+class Login extends AbstractAccount implements HttpPostActionInterface
 {
     /**
-     * @var \Magento\Framework\Session\Generic
-     */
-    protected $session;
-
-    /**
-     * @var \Magento\Customer\Model\Session
+     * Customer Session
+     *
+     * @var Session
      */
     protected $customerSession;
 
     /**
+     * Account Management Interface
+     *
      * @var AccountManagementInterface
      */
     protected $customerAccountManagement;
 
     /**
-     * @var \Magento\Framework\Json\Helper\Data $helper
+     * Customer Url
+     *
+     * @var CustomerUrl
      */
-    protected $helper;
+    protected $customerHelperData;
 
     /**
-     * @var \Magento\Framework\Controller\Result\JsonFactory
+     * Raw Factory
+     *
+     * @var RawFactory
+     */
+    protected $rawFactory;
+
+    /**
+     * Json Factory
+     *
+     * @var JsonFactory
      */
     protected $resultJsonFactory;
 
     /**
-     * @var \Magento\Framework\Controller\Result\RawFactory
-     */
-    protected $resultRawFactory;
-
-    /**
-     * @var AccountRedirect
-     */
-    protected $accountRedirect;
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $scopeConfig;
-
-    /**
-     * Initialize Login controller
+     * Login constructor.
      *
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Json\Helper\Data $helper
+     * @param Context $context
+     * @param Session $customerSession
      * @param AccountManagementInterface $customerAccountManagement
-     * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
-     * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
+     * @param CustomerUrl $customerHelperData
+     * @param RawFactory $rawFactory
+     * @param JsonFactory $resultJsonFactory
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Json\Helper\Data $helper,
+        Context $context,
+        Session $customerSession,
         AccountManagementInterface $customerAccountManagement,
-        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
+        CustomerUrl $customerHelperData,
+        RawFactory $rawFactory,
+        JsonFactory $resultJsonFactory
     ) {
-        parent::__construct($context);
-        $this->customerSession = $customerSession;
-        $this->helper = $helper;
+        $this->session = $customerSession;
         $this->customerAccountManagement = $customerAccountManagement;
+        $this->customerUrl = $customerHelperData;
+        $this->resultRawFactory = $rawFactory;
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->resultRawFactory = $resultRawFactory;
+        parent::__construct($context);
     }
 
     /**
-     * Login registered users and initiate a session.
+     * Login post action
      *
-     * Expects a POST. ex for JSON {"username":"user@magento.com", "password":"userpassword"}
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @return Redirect
      */
     public function execute()
     {
-        $credentials = null;
         $httpBadRequestCode = 400;
-
-        /** @var \Magento\Framework\Controller\Result\Raw $resultRaw */
         $resultRaw = $this->resultRawFactory->create();
+
         try {
-            $credentials = $this->helper->jsonDecode($this->getRequest()->getContent());
+            $credentials = $this->getRequest()->getParams();
         } catch (\Exception $e) {
             return $resultRaw->setHttpResponseCode($httpBadRequestCode);
         }
+
         if (!$credentials || $this->getRequest()->getMethod() !== 'POST' || !$this->getRequest()->isXmlHttpRequest()) {
             return $resultRaw->setHttpResponseCode($httpBadRequestCode);
         }
 
-        $response = [
-            'errors' => false,
-            'message' => __('Login successful.')
-        ];
+        if ($this->getRequest()->isPost()) {
+            if (!empty($credentials['username']) && !empty($credentials['password'])) {
+                try {
+                    $email = $credentials['username'];
 
-        try {
-            $customer = $this->customerAccountManagement->authenticate(
-                $credentials['username'],
-                $credentials['password']
-            );
-            $this->customerSession->setCustomerDataAsLoggedIn($customer);
-            $this->customerSession->regenerateId();
-        } catch (EmailNotConfirmedException $e) {
-            $response = [
-                'errors' => true,
-                'message' => $e->getMessage()
-            ];
-        } catch (InvalidEmailOrPasswordException $e) {
-            $response = [
-                'errors' => true,
-                'message' => $e->getMessage()
-            ];
-        } catch (LocalizedException $e) {
-            $response = [
-                'errors' => true,
-                'message' => $e->getMessage()
-            ];
-        } catch (\Exception $e) {
-            $response = [
-                'errors' => true,
-                'message' => __('Invalid login or password.')
-            ];
+                    $customer = $this->customerAccountManagement->authenticate(
+                        $email,
+                        $credentials['password']
+                    );
+
+                    $this->session->setCustomerDataAsLoggedIn($customer);
+                    $response = [
+                        'errors' => false,
+                        'message' => __('Login successful.')
+                    ];
+                } catch (EmailNotConfirmedException $e) {
+                    $value = $this->customerUrl->getEmailConfirmationUrl($email);
+                    $message = __(
+                        'This account is not confirmed.
+                        <a href="%1">Click here</a> to resend confirmation email.',
+                        $value
+                    );
+                    $response = [
+                        'errors' => true,
+                        'message' => $message,
+                    ];
+                } catch (AuthenticationException $e) {
+                    $response = [
+                        'errors' => true,
+                        'message' => __(
+                            'The account sign-in was incorrect or your account is disabled temporarily.
+                            Please wait and try again later.'
+                        )
+                    ];
+                } catch (LocalizedException $e) {
+                    $response = [
+                        'errors' => true,
+                        'message' => $e->getMessage(),
+                    ];
+                } finally {
+                    if (isset($message)) {
+                        $this->messageManager->addErrorMessage($message);
+                        $this->session->setUsername($email);
+                    }
+                }
+            } else {
+                $this->messageManager->addErrorMessage(
+                    __('A login and a password are required.')
+                );
+            }
         }
-        /** @var \Magento\Framework\Controller\Result\Json $resultJson */
+
         $resultJson = $this->resultJsonFactory->create();
-        $result = $resultJson->setData($response);
-        return $result;
+        return $resultJson->setData($response);
     }
 }
