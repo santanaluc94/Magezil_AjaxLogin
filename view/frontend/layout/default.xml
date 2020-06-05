@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
+        <title>Popup Forgot Password</title>
+
         <css src="CustomModules_AjaxLogin::css/custom_popup_style.css" />
     </head>
     <body>
@@ -11,7 +13,24 @@
         </referenceBlock>
         <referenceContainer name="content">
             <block class="Magento\Customer\Block\Account\AuthenticationPopup" name="customer-popup-login" template="CustomModules_AjaxLogin::login-popup.phtml" />
-            <block class="Magento\Customer\Block\Account\AuthenticationPopup" name="customer-popup-forgotpassword" template="CustomModules_AjaxLogin::forgotpassword-popup.phtml" />
+            <block class="CustomModules\AjaxLogin\Block\Account\AuthenticationPopup" name="customer-popup-forgotpassword" template="CustomModules_AjaxLogin::forgotpassword-popup.phtml">
+                <container name="form.additional.info" label="Form Additional Info">
+                    <block class="Magento\Captcha\Block\Captcha" name="captcha" after="-" cacheable="false">
+                        <action method="setFormId">
+                            <argument name="formId" xsi:type="string">popup_forgot_password_form</argument>
+                        </action>
+                        <action method="setImgWidth">
+                            <argument name="width" xsi:type="string">230</argument>
+                        </action>
+                        <action method="setImgHeight">
+                            <argument name="width" xsi:type="string">50</argument>
+                        </action>
+                    </block>
+                </container>
+            </block>
         </referenceContainer>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="captcha_page_head_components" template="Magento_Captcha::js/components.phtml"/>
+        </referenceBlock>
     </body>
 </page>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <customer>
+            <captcha>
+                <shown_to_logged_in_user>
+                    <popup_forgot_password_form>0</popup_forgot_password_form>
+                </shown_to_logged_in_user>
+                <always_for>
+                    <popup_forgot_password_form>1</popup_forgot_password_form>
+                </always_for>
+            </captcha>
+        </customer>
+        <captcha translate="label">
+            <frontend>
+                <areas>
+                    <popup_forgot_password_form>
+                        <label>Popup Forgot Password</label>
+                    </popup_forgot_password_form>
+                </areas>
+            </frontend>
+        </captcha>
+    </default>
+</config>

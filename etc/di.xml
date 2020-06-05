@@ -3,4 +3,6 @@
     <type name="Magento\Customer\Block\Account\AuthorizationLink">
         <plugin name="modify_signin_href" type="CustomModules\AjaxLogin\Plugin\ModifySignInHrefPlugin" />
     </type>
+
+    <preference for="Magento\Customer\Block\Account\AuthenticationPopup" type="CustomModules\AjaxLogin\Block\Account\AuthenticationPopup" />
 </config>

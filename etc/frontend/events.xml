@@ -3,4 +3,8 @@
     <event name="layout_load_before">
         <observer name="add_ajaxlogin_loggedout_handle" instance="CustomModules\AjaxLogin\Observer\AddLoggedOutHandleObserver" />
     </event>
+
+    <event name="controller_action_predispatch_ajaxlogin_ajax_login">
+        <observer name="captcha_forgot_password_form" instance="CustomModules\AjaxLogin\Observer\CheckCustomFormObserver" />
+    </event>
 </config>
