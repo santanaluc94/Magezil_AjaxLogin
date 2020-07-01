@@ -2,7 +2,7 @@
     <div class="block block-new-customer">
         <div class="block-title">
             <span class="custom-popup-title" id="block-new-customer-heading" aria-level="1">
-                <?= __('Checkout as a new customer') ?>
+                <?= __('Create New Customer Account') ?>
             </span>
         </div>
         <div class="block-content" aria-labelledby="block-new-customer-heading">
@@ -11,20 +11,22 @@
                 <li><?= __('See order and shipping status') ?></li>
                 <li><?= __('Track order history') ?></li>
                 <li><?= __('Check out faster') ?></li>
+                <li><?= __('Keep more than one address') ?></li>
+                <li><?= __('And much more') ?></li>
             </ul>
         </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <button class="action action-register primary">
+                <a class="action action-register primary" href="<?= $block->getCustomerRegisterUrlUrl() ?>">
                     <span><?= __('Create an Account') ?></span>
-                </button>
+                </a>
             </div>
         </div>
     </div>
     <div class="block-customer-login">
         <div class="block-title">
             <span class="custom-popup-title" id="block-customer-ajaxlogin-heading" aria-level="2">
-                <?= __('Checkout using your account') ?>
+                <?= __('Customer Login') ?>
             </span>
         </div>
         <div class="block-content" aria-labelledby="block-customer-login-heading">
@@ -48,7 +50,7 @@
                     </div>
                     <div class="actions-toolbar">
                         <div class="secondary link-forgot-password">
-                            <a class="action link-forgot-password" id="forgotpassword-popup">
+                            <a class="action link-forgot-password" id="forgotpassword-popup" href="<?= $block->getCustomerForgotPasswordUrl() ?>">
                                 <span><?= __('Forgot Your Password?') ?></span>
                             </a>
                         </div>

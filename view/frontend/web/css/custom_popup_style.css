@@ -106,9 +106,10 @@ div.primary {
     height: 100%;
 }
 
-button.action-register {
+a.action-register {
     height: 100%;
 }
+
 span.create-account {
     font-size: 1.6rem;
 }
