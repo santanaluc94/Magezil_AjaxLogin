@@ -10,7 +10,8 @@
             </arguments>
         </referenceBlock>
         <referenceContainer name="content">
-            <block class="Magento\Customer\Block\Account\AuthenticationPopup" name="customer-popup-login" template="CustomModules_AjaxLogin::login-popup.phtml" />
+            <block class="CustomModules\AjaxLogin\Block\Account\AuthenticationPopup" name="popup-forgotpassword" template="CustomModules_AjaxLogin::forgotpassword-popup.phtml" />
+            <block class="CustomModules\AjaxLogin\Block\Account\AuthenticationPopup" name="popup-login" template="CustomModules_AjaxLogin::login-popup.phtml" />
         </referenceContainer>
     </body>
 </page>
