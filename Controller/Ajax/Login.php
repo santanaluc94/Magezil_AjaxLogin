@@ -9,7 +9,6 @@ use Magento\Customer\Model\Session;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Framework\Controller\Result\RawFactory;
-use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\LocalizedException;
@@ -26,51 +25,12 @@ use Magento\Framework\Controller\Result\JsonFactory;
  */
 class Login extends AbstractAccount implements HttpPostActionInterface
 {
-    /**
-     * Customer Session
-     *
-     * @var Session
-     */
     protected $customerSession;
-
-    /**
-     * Account Management Interface
-     *
-     * @var AccountManagementInterface
-     */
     protected $customerAccountManagement;
-
-    /**
-     * Customer Url
-     *
-     * @var CustomerUrl
-     */
     protected $customerHelperData;
-
-    /**
-     * Raw Factory
-     *
-     * @var RawFactory
-     */
     protected $rawFactory;
-
-    /**
-     * Json Factory
-     *
-     * @var JsonFactory
-     */
     protected $resultJsonFactory;
 
-    /**
-     * Login constructor.
-     *
-     * @param Context $context
-     * @param Session $customerSession
-     * @param AccountManagementInterface $customerAccountManagement
-     * @param CustomerUrl $customerHelperData
-     * @param RawFactory $rawFactory
-     * @param JsonFactory $resultJsonFactory
-     */
     public function __construct(
         Context $context,
         Session $customerSession,
@@ -87,11 +47,6 @@ class Login extends AbstractAccount implements HttpPostActionInterface
         parent::__construct($context);
     }
 
-    /**
-     * Login post action
-     *
-     * @return Redirect
-     */
     public function execute()
     {
         $httpBadRequestCode = 400;

@@ -19,9 +19,6 @@ use Magento\Framework\App\ObjectManager;
  */
 class AuthenticationPopup extends \Magento\Customer\Block\Account\AuthenticationPopup
 {
-    /**
-     * @var Json
-     */
     protected $serializer;
 
     public function __construct(
@@ -37,11 +34,6 @@ class AuthenticationPopup extends \Magento\Customer\Block\Account\Authentication
             ->get(Json::class);
     }
 
-    /**
-     * Is autocomplete enabled for storefront
-     *
-     * @return string
-     */
     protected function isAutocompleteEnabled(): string
     {
         return $this->_scopeConfig->getValue(
@@ -50,11 +42,13 @@ class AuthenticationPopup extends \Magento\Customer\Block\Account\Authentication
         ) ? 'on' : 'off';
     }
 
-    /**
-     * Get captcha
-     */
-    public function getFormAction()
+    public function getForgotpasswordActionPost(): string
     {
-        return $this->getUrl('ajaxlogin/ajax/login', ['_secure' => true]);
+        return $this->getUrl('ajaxlogin/ajax/forgotpassword');
+    }
+
+    public function getLoginActionPost(): string
+    {
+        return $this->getUrl('ajaxlogin/ajax/login');
     }
 }

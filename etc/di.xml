@@ -5,8 +5,4 @@
     <type name="Magento\Customer\Block\Account\AuthorizationLink">
         <plugin name="modify_signin_href" type="CustomModules\AjaxLogin\Plugin\ModifySignInHrefPlugin" />
     </type>
-
-    <type name="CustomModules\AjaxLogin\Controller\Ajax\Forgotpassword">
-        <plugin name="login_ajax" type="CustomModules\AjaxLogin\Plugin\AjaxForgotpassword" sortOrder="50" />
-    </type>
 </config>

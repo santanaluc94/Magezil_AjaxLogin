@@ -10,34 +10,10 @@ use Magento\Customer\Block\Account\AuthorizationLink;
 
 class ModifySignInHrefPlugin
 {
-    /**
-     * Customer session
-     *
-     * @var HttpContext
-     */
-    protected $httpContext;
+    private $httpContext;
+    private $helper;
+    private $storeManager;
 
-    /**
-     * Custom Helper Data
-     *
-     * @var Data
-     */
-    protected $helper;
-
-    /**
-     * Store Manager Interface
-     *
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * Modify Sign In Href Plugin constructor.
-     *
-     * @param HttpContext $httpContext
-     * @param Data $helper
-     * @param StoreManagerInterface $storeManager
-     */
     public function __construct(
         HttpContext $httpContext,
         Data $helper,
@@ -48,13 +24,6 @@ class ModifySignInHrefPlugin
         $this->storeManager = $storeManager;
     }
 
-    /**
-     * Set link url to header button 'Sign in'
-     *
-     * @param AuthorizationLink $subject
-     * @param $result
-     * @return string
-     */
     public function afterGetHref(AuthorizationLink $subject, $result): string
     {
         if (!$this->helper->isEnabled()) {
@@ -67,12 +36,7 @@ class ModifySignInHrefPlugin
         return $result;
     }
 
-    /**
-     * Check customer is logged in
-     *
-     * @return bool
-     */
-    public function isLoggedIn(): bool
+    private function isLoggedIn(): bool
     {
         return $this->httpContext->getValue(Context::CONTEXT_AUTH);
     }

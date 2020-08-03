@@ -3,7 +3,7 @@
     <head>
         <title>Popup Forgot Password</title>
 
-        <css src="CustomModules_AjaxLogin::css/custom_popup_style.css" />
+        <css src="CustomModules_AjaxLogin::css/modal_styles.css" />
     </head>
     <body>
         <referenceBlock name="authorization-link-login">

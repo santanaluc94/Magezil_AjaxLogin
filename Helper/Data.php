@@ -4,7 +4,6 @@ namespace CustomModules\AjaxLogin\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -20,39 +19,14 @@ class Data extends AbstractHelper
 {
     const MODULE_ENABLE = 'custom_ajax_login/general/enable';
 
-    /**
-     * Scope Config
-     *
-     * @var ScopeConfigInterface
-     */
-    protected $scopeConfig;
+    private $scopeConfig;
 
-    /**
-     * Store Manager
-     *
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * Helper Data Constructor
-     *
-     * @param ScopeConfigInterface  $scopeConfig
-     * @param StoreManagerInterface  $storeManager
-     */
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        StoreManagerInterface $storeManager
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->storeManager = $storeManager;
     }
 
-    /**
-     * Check module is enable
-     *
-     * @return boolean
-     */
     public function isEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(

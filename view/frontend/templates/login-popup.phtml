@@ -28,7 +28,7 @@
             </span>
         </div>
         <div class="block-content" aria-labelledby="block-customer-login-heading">
-            <form class="form form-login" method="post" id="ajaxlogin-form" action="<?= $block->getUrl('ajaxlogin/ajax/login') ?>">
+            <form class="form form-login" method="post" id="ajaxlogin-form" action="<?= $block->getLoginActionPost() ?>">
                 <div class="fieldset login">
                     <div class="field email required">
                         <label class="label" for="ajaxlogin-email">
