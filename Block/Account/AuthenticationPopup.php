@@ -51,4 +51,9 @@ class AuthenticationPopup extends \Magento\Customer\Block\Account\Authentication
     {
         return $this->getUrl('ajaxlogin/ajax/login');
     }
+
+    public function getCreateAccountUrl(): string
+    {
+        return $this->getUrl('ajaxlogin/ajax/createPost');
+    }
 }

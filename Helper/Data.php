@@ -19,7 +19,7 @@ class Data extends AbstractHelper
 {
     const MODULE_ENABLE = 'custom_ajax_login/general/enable';
 
-    private $scopeConfig;
+    protected $scopeConfig;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig

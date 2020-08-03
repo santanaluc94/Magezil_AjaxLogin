@@ -1,18 +1,22 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <title>Popup Forgot Password</title>
-
         <css src="CustomModules_AjaxLogin::css/modal_styles.css" />
     </head>
     <body>
         <referenceBlock name="authorization-link-login">
             <arguments>
-                <argument name="class" xsi:type="string">custom-ajax-login-popup</argument>
+                <argument name="class" xsi:type="string">ajax-login-popup</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="register-link">
+            <arguments>
+                <argument name="class" xsi:type="string">ajax-register-link-popup</argument>
             </arguments>
         </referenceBlock>
         <referenceContainer name="content">
             <block class="Magento\Customer\Block\Account\AuthenticationPopup" name="customer-popup-login" template="CustomModules_AjaxLogin::login-popup.phtml" />
+            <block class="CustomModules\AjaxLogin\Block\Account\AuthenticationPopup" name="customer-popup-create-account" template="CustomModules_AjaxLogin::create-account-popup.phtml" />
             <block class="CustomModules\AjaxLogin\Block\Account\AuthenticationPopup" name="customer-popup-forgotpassword" template="CustomModules_AjaxLogin::forgotpassword-popup.phtml">
                 <container name="form.additional.info" label="Form Additional Info">
                     <block class="Magento\Captcha\Block\Captcha" name="captcha" after="-" cacheable="false">

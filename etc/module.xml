@@ -3,5 +3,6 @@
     <module name="CustomModules_AjaxLogin" setup_version="1.0.0" />
     <sequence>
         <module name="Magento_Customer" />
+        <module name="Magento_Security" />
     </sequence>
 </config>

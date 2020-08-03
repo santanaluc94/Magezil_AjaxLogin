@@ -17,24 +17,27 @@ define([
         buttons: false,
     };
 
-    var popupLogin = modal(options, $('#customer-login-popup'));
+    var popupCreateAccount = modal(options, $('#customer-create-account-popup'));
+
+
+    $('.ajax-register-link-popup').attr('href', '#');
 
     /**
-     * Show the login form in a popup when clicking on the sign in text
+     * Show the create custoemr account in a popup
      */
-    $('body').on('click', '.ajax-login-popup, ' + '#customer-create-account-popup', function () {
-        $('#customer-create-account-popup').modal('closeModal');
+    $('body').on('click', '.ajax-register-link-popup, ' + '#create-account-popup', function () {
         $('#customer-forgotpassword-popup').modal('closeModal');
-        $('#customer-login-popup').modal('openModal');
+        $('#customer-login-popup').modal('closeModal');
+        $('#customer-create-account-popup').modal('openModal');
     });
 
     /**
      * Ajax do login
      */
     $(document).ready(function () {
-        $('#ajaxlogin-form').submit(function (e) {
+        $('#ajax-create-account-form').submit(function (e) {
             e.preventDefault();
-            let actionUrlForm = $('#ajaxlogin-form').attr('action');
+            let actionUrlForm = $('#ajax-create-account-form').attr('action');
             $.ajax({
                 url: actionUrlForm,
                 type: 'POST',

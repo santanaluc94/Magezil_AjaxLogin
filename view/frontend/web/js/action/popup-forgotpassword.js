@@ -9,7 +9,6 @@ define([
     'uiComponent'
 ], function ($, modal, customerData, storage, $t) {
     'use strict';
-    console.log('Ajax Login actived');
 
     var options = {
         type: 'popup',
@@ -24,7 +23,7 @@ define([
      * Show the forgot password in a popup
      */
     $('body').on('click', '#forgotpassword-popup', function () {
-        // $('#customer-register-popup').modal('closeModal');
+        $('#customer-create-account-popup').modal('closeModal');
         $('#customer-login-popup').modal('closeModal');
         $('#customer-forgotpassword-popup').modal('openModal');
     });

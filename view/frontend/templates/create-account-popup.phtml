@@ -1,0 +1,48 @@
+<div class="custom-block-authentication" id="customer-create-account-popup" style="display: none;">
+    <div class="block-customer-forgot-password">
+        <div class="block-title">
+            <span class="custom-popup-title" aria-level="2">
+                <?= __('Create an account') ?>
+            </span>
+        </div>
+        <div class="block-content" aria-labelledby="block-customer-forgot-password-heading">
+            <form class="form form-forgot-password" method="post" id="ajax-create-account-form" action="<?= $block->getCreateAccountUrl() ?>">
+                <div class="fieldset login">
+                    <div class="field email required">
+                        <label class="label">
+                            <span class="custom-field"><?= __('Email Address') ?></span>
+                        </label>
+                        <div class="control">
+                            <input name="username" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}">
+                        </div>
+                    </div>
+
+                    <div class="actions-toolbar">
+                        <div class="secondary link-forgot-password">
+                            <a class="action link-forgot-password" id="customer-sign-in-popup">
+                                <span><?= __('Back to Sign in') ?></span>
+                            </a>
+                        </div>
+                        <div class="primary field-submit-form">
+                            <button type="submit" class="action action-register primary" name="send" id="ajax-create-account-send">
+                                <span><?= __('Create account') ?></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="messages">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#customer-create-account-popup": {
+            "CustomModules_AjaxLogin/js/action/popup-create-account": {
+                "popupTitle": "<?= __('Create an account') ?>",
+                "innerWidth": "400"
+            }
+        }
+    }
+</script>
