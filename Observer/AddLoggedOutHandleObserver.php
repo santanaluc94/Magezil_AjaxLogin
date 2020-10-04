@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomModules\AjaxLogin\Observer;
+namespace Magezil\AjaxLogin\Observer;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer;

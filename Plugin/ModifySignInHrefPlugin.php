@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomModules\AjaxLogin\Plugin;
+namespace Magezil\AjaxLogin\Plugin;
 
 use Magento\Customer\Model\Context;
 use Magento\Framework\App\Http\Context as HttpContext;
-use CustomModules\AjaxLogin\Helper\Data;
+use Magezil\AjaxLogin\Helper\Data;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Block\Account\AuthorizationLink;
 

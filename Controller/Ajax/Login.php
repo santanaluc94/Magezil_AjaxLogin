@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomModules\AjaxLogin\Controller\Ajax;
+namespace Magezil\AjaxLogin\Controller\Ajax;
 
 use Magento\Customer\Controller\AbstractAccount;
 use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
@@ -19,7 +19,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
  * Class Login
  *
  * @category Magento
- * @package  CustomModules_AjaxLogin
+ * @package  Magezil_AjaxLogin
  * @author   Lucas Teixeira dos Santos Santana <santanaluc94@gmail.com>
  * @license  NO-LICENSE #
  * @link     http://github.com/santanaluc94
