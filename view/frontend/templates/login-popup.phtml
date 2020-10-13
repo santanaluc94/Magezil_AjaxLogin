@@ -1,85 +1,85 @@
 <?php
 
 use Magento\Customer\Block\Account\AuthenticationPopup;
-use CustomModules\AjaxLogin\Helper\Data;
+use Magezil\AjaxLogin\Helper\Data;
 
 /**
  * @var AuthenticationPopup $block
-*/
+ **/
 
 $_helper = $this->helper(Data::class)->isEnabled();
 ?>
 <?php if ($_helper) : ?>
-<div class="custom-block-authentication" id="customer-login-popup" style="display: none;">
-    <div class="block block-new-customer">
-        <div class="block-title">
-            <span class="custom-popup-title" id="block-new-customer-heading" aria-level="1">
-                <?= __('Create New Customer Account') ?>
-            </span>
+    <div class="block-popup-login" id="customer-login-popup" style="display: none;">
+        <div class="block block-popup-new-customer">
+            <div class="block-popup-title">
+                <span class="popup-title" id="block-new-customer-heading" aria-level="1">
+                    <?= __('Create New Customer Account') ?>
+                </span>
+            </div>
+            <div class="block-content" aria-labelledby="block-new-customer-heading">
+                <p><?= __('Creating an account has many benefits:') ?></p>
+                <ul>
+                    <li><?= __('See order and shipping status') ?></li>
+                    <li><?= __('Track order history') ?></li>
+                    <li><?= __('Check out faster') ?></li>
+                    <li><?= __('Keep more than one address and much more') ?></li>
+                </ul>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a class="action action-register primary" href="<?= $block->getCustomerRegisterUrlUrl() ?>">
+                        <span><?= __('Create an Account') ?></span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="block-content" aria-labelledby="block-new-customer-heading">
-            <p><?= __('Creating an account has many benefits:') ?></p>
-            <ul>
-                <li><?= __('See order and shipping status') ?></li>
-                <li><?= __('Track order history') ?></li>
-                <li><?= __('Check out faster') ?></li>
-                <li><?= __('Keep more than one address and much more') ?></li>
-            </ul>
-        </div>
-        <div class="actions-toolbar">
-            <div class="primary">
-                <a class="action action-register primary" href="<?= $block->getCustomerRegisterUrlUrl() ?>">
-                    <span><?= __('Create an Account') ?></span>
-                </a>
+        <div class="block-customer-login">
+            <div class="block-popup-title">
+                <span class="popup-title" id="block-customer-ajaxlogin-heading" aria-level="2">
+                    <?= __('Customer Login') ?>
+                </span>
+            </div>
+            <div class="block-popup-content" aria-labelledby="block-customer-login-heading">
+                <form class="form form-popup-login" method="post" id="ajaxlogin-form" action="<?= $block->getUrl('ajaxlogin/ajax/login') ?>">
+                    <div class="fieldset login">
+                        <div class="field email required">
+                            <label class="label" for="ajaxlogin-email">
+                                <span class="custom-field"><?= __('Email Address') ?></span>
+                            </label>
+                            <div class="control">
+                                <input name="username" id="ajaxlogin-email" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}">
+                            </div>
+                        </div>
+                        <div class="field password required">
+                            <label for="ajaxlogin-pass" class="label">
+                                <span class="custom-field"><?= __('Password') ?></span>
+                            </label>
+                            <div class="control">
+                                <input name="password" type="password" class="input-text" id="ajaxlogin-pass" data-validate="{required:true}">
+                            </div>
+                        </div>
+                        <div class="actions-toolbar">
+                            <div class="secondary link-forgot-password">
+                                <a class="action link-forgot-password" id="forgotpassword-popup" href="<?= $block->getCustomerForgotPasswordUrl() ?>">
+                                    <span><?= __('Forgot Your Password?') ?></span>
+                                </a>
+                            </div>
+                            <div class="primary field-submit-form">
+                                <button type="submit" class="action action-login secondary" name="send" id="ajaxlogin-send">
+                                    <span><?= __('Sign In') ?></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="message-popup">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="block-customer-login">
-        <div class="block-title">
-            <span class="custom-popup-title" id="block-customer-ajaxlogin-heading" aria-level="2">
-                <?= __('Customer Login') ?>
-            </span>
-        </div>
-        <div class="block-content" aria-labelledby="block-customer-login-heading">
-            <form class="form form-login" method="post" id="ajaxlogin-form" action="<?= $block->getUrl('ajaxlogin/ajax/login') ?>">
-                <div class="fieldset login">
-                    <div class="field email required">
-                        <label class="label" for="ajaxlogin-email">
-                            <span class="custom-field"><?= __('Email Address') ?></span>
-                        </label>
-                        <div class="control">
-                            <input name="username" id="ajaxlogin-email" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}">
-                        </div>
-                    </div>
-                    <div class="field password required">
-                        <label for="ajaxlogin-pass" class="label">
-                            <span class="custom-field"><?= __('Password') ?></span>
-                        </label>
-                        <div class="control">
-                            <input name="password" type="password" class="input-text" id="ajaxlogin-pass" data-validate="{required:true}">
-                        </div>
-                    </div>
-                    <div class="actions-toolbar">
-                        <div class="secondary link-forgot-password">
-                            <a class="action link-forgot-password" id="forgotpassword-popup" href="<?= $block->getCustomerForgotPasswordUrl() ?>">
-                                <span><?= __('Forgot Your Password?') ?></span>
-                            </a>
-                        </div>
-                        <div class="primary field-submit-form">
-                            <button type="submit" class="action action-login secondary" name="send" id="ajaxlogin-send">
-                                <span><?= __('Sign In') ?></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="messages">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<script type="text/x-magento-init">
-    {
+    <script type="text/x-magento-init">
+        {
         "#customer-login-popup": {
             "Magezil_AjaxLogin/js/action/customer-popups": {
                 "popupTitle": "<?= __('Sign In') ?>",

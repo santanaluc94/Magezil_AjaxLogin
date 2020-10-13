@@ -8,36 +8,22 @@ use Magezil\AjaxLogin\Helper\Data;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Block\Account\AuthorizationLink;
 
+/**
+ * Class ModifySignInHrefPlugin
+ *
+ * @category Magento
+ * @package  Magezil_AjaxLogin
+ * @author   Lucas Teixeira dos Santos Santana <santanaluc94@gmail.com>
+ * @license  OSL-3.0
+ * @license  AFL-3.0
+ * @link     http://github.com/santanaluc94
+ */
 class ModifySignInHrefPlugin
 {
-    /**
-     * Customer session
-     *
-     * @var HttpContext
-     */
     protected $httpContext;
-
-    /**
-     * Custom Helper Data
-     *
-     * @var Data
-     */
     protected $helper;
-
-    /**
-     * Store Manager Interface
-     *
-     * @var StoreManagerInterface
-     */
     protected $storeManager;
 
-    /**
-     * Modify Sign In Href Plugin constructor.
-     *
-     * @param HttpContext $httpContext
-     * @param Data $helper
-     * @param StoreManagerInterface $storeManager
-     */
     public function __construct(
         HttpContext $httpContext,
         Data $helper,
@@ -48,13 +34,6 @@ class ModifySignInHrefPlugin
         $this->storeManager = $storeManager;
     }
 
-    /**
-     * Set link url to header button 'Sign in'
-     *
-     * @param AuthorizationLink $subject
-     * @param $result
-     * @return string
-     */
     public function afterGetHref(AuthorizationLink $subject, $result): string
     {
         if (!$this->helper->isEnabled()) {
@@ -67,11 +46,6 @@ class ModifySignInHrefPlugin
         return $result;
     }
 
-    /**
-     * Check customer is logged in
-     *
-     * @return bool
-     */
     public function isLoggedIn(): bool
     {
         return $this->httpContext->getValue(Context::CONTEXT_AUTH);

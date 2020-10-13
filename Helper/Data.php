@@ -4,7 +4,6 @@ namespace Magezil\AjaxLogin\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -13,46 +12,22 @@ use Magento\Store\Model\ScopeInterface;
  * @category Magento
  * @package  Magezil_AjaxLogin
  * @author   Lucas Teixeira dos Santos Santana <santanaluc94@gmail.com>
- * @license  NO-LICENSE #
+ * @license  OSL-3.0
+ * @license  AFL-3.0
  * @link     http://github.com/santanaluc94
  */
 class Data extends AbstractHelper
 {
     const MODULE_ENABLE = 'magezil_ajax_login/general/enable';
 
-    /**
-     * Scope Config
-     *
-     * @var ScopeConfigInterface
-     */
     protected $scopeConfig;
 
-    /**
-     * Store Manager
-     *
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * Helper Data Constructor
-     *
-     * @param ScopeConfigInterface  $scopeConfig
-     * @param StoreManagerInterface  $storeManager
-     */
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        StoreManagerInterface $storeManager
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->storeManager = $storeManager;
     }
 
-    /**
-     * Check module is enable
-     *
-     * @return boolean
-     */
     public function isEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(

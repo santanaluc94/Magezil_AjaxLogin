@@ -7,11 +7,11 @@
 }
 
 /* Title */
-div.custom-block-authentication {
+div.block-popup-login {
     border-bottom: solid 1px #c2c2c2;
 }
 
-div.block-new-customer {
+div.block-popup-login div.block-popup-new-customer {
     margin-top: 15px;
     width: 47.5%;
     float: left;
@@ -20,7 +20,7 @@ div.block-new-customer {
     position: relative;
 }
 
-div.block-customer-login {
+div.block-popup-login div.block-customer-login {
     margin-top: 15px;
     width: 47.5%;
     float: left;
@@ -31,30 +31,30 @@ div.block-customer-login {
     position: relative;
 }
 
-div.block-title {
+div.block-popup-login div.block-popup-title {
     margin-bottom: 25px;
 }
 
-span.custom-popup-title {
+div.block-popup-login div.block-popup-title span.popup-title {
     font-weight: 300;
     font-size: 2.6rem;
 }
 
 /* Form Login */
-span.custom-field {
+div.block-popup-login span.custom-field {
     font-weight: 400;
 }
 
-div.control {
+div.block-popup-login div.control {
     float: none;
     width: auto;
 }
 
-div.field {
+div.block-popup-login div.field {
     margin: 0 0 20px;
 }
 
-input.input-text {
+div.block-popup-login div.field input.input-text {
     border: 1px solid #c2c2c2;
     border-radius: 1px;
     font-size: 14px;
@@ -65,31 +65,30 @@ input.input-text {
     box-sizing: border-box;
 }
 
-div.actions-toolbar {
+div.block-popup-login div.actions-toolbar {
     position: absolute;
     bottom: 0;
     height: 40px;
     width: 100%;
 }
 
-div.link-forgot-password {
+div.block-popup-login div.link-forgot-password {
     left: 0;
     position: absolute;
     top: 7px;
 }
 
-a.link-forgot-password {
+div.block-popup-login a.link-forgot-password {
     margin-top: 0;
 }
 
-
-div.field-submit-form {
+div.block-popup-login div.field-submit-form {
     height: 100%;
     position: absolute;
     right: 0;
 }
 
-button.action-login {
+div.block-popup-login button.action-login {
     line-height: 1.6rem;
     font-size: 1.6rem;
     height: 100%;
@@ -97,19 +96,6 @@ button.action-login {
     width: 90px;
 }
 
-div.message-popup {
+div.block-popup-login div.message-popup {
     margin-top: 40px;
-}
-
-/* Instructions to create account */
-div.primary {
-    height: 100%;
-}
-
-a.action-register {
-    height: 100%;
-}
-
-span.create-account {
-    font-size: 1.6rem;
 }

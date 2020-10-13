@@ -1,18 +1,23 @@
 <?php
 
-namespace CustomModules\AjaxLogin\Block\Account;
+namespace Magezil\AjaxLogin\Block\Account;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Serialize\Serializer\Json;
-use CustomModules\AjaxLogin\Helper\Data;
+use Magezil\AjaxLogin\Helper\Data;
 
+/**
+ * Class AuthenticationPopup
+ *
+ * @category Magento
+ * @package  Magezil_AjaxLogin
+ * @author   Lucas Teixeira dos Santos Santana <santanaluc94@gmail.com>
+ * @license  OSL-3.0
+ * @license  AFL-3.0
+ * @link     http://github.com/santanaluc94
+ */
 class AuthenticationPopup extends \Magento\Customer\Block\Account\AuthenticationPopup
 {
-    /**
-     * Helper Data
-     *
-     * @var Data
-     */
     protected $helper;
 
     public function __construct(
@@ -29,11 +34,6 @@ class AuthenticationPopup extends \Magento\Customer\Block\Account\Authentication
         );
     }
 
-    /**
-     * Get customer register url
-     *
-     * @return string
-     */
     public function getCustomerRegisterUrlUrl(): string
     {
         if (!$this->helper->isEnabled()) {
@@ -43,11 +43,6 @@ class AuthenticationPopup extends \Magento\Customer\Block\Account\Authentication
         return '#';
     }
 
-    /**
-     * Get customer forgot password url
-     *
-     * @return string
-     */
     public function getCustomerForgotPasswordUrl(): string
     {
         if (!$this->helper->isEnabled()) {
