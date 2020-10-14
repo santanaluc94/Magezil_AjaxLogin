@@ -1,49 +1,41 @@
 define([
     'jquery',
     'Magento_Ui/js/modal/modal',
-    'Magento_Customer/js/customer-data',
-    'mage/storage',
     'mage/translate',
     'mage/mage',
     'jquery/ui',
     'uiComponent'
-], function ($, modal, customerData, storage, $t) {
+], function ($, modal, $t) {
     'use strict';
-    console.log('Ajax Login actived');
+    console.log('Forgot password actived');
 
-    var options = {
+    var optionsForgot = {
         type: 'popup',
         responsive: true,
         innerScroll: true,
         buttons: false,
     };
 
-    var popupLogin = modal(options, $('#customer-login-popup'));
-    var popupForgotPassword = modal(options, $('#customer-forgotpassword-popup'));
-
-    // Show the login form in a popup when clicking on the sign in text
-    $('body').on('click', '.custom-ajax-login-popup, ' + '#customer-sign-in-popup', function () {
-        $('#customer-register-popup').modal('closeModal');
-        $('#customer-forgotpassword-popup').modal('closeModal');
-        $('#customer-login-popup').modal('openModal');
-    });
+    var popupForgotPassword = modal(optionsForgot, $('#customer_forgotpassword_popup'));
 
     // Show the forgot password form in a popup when clicking on the sign in text
-    $('body').on('click', '#forgotpassword-popup', function () {
-        $('#customer-register-popup').modal('closeModal');
-        $('#customer-login-popup').modal('closeModal');
-        $('#customer-forgotpassword-popup').modal('openModal');
+    $('body').on('click', '#forgotpassword_popup', function () {
+        // $('#customer_register_popup').modal('closeModal');
+        $('#customer_login_popup').modal('closeModal');
+        $('#customer_forgotpassword_popup').modal('openModal');
     });
 
     $(document).ready(function () {
-        $('#ajaxlogin-form').submit(function (e) {
-            e.preventDefault();
-            let actionUrlForm = $('#ajaxlogin-form').attr('action');
+        $('#forgotpassword_form').submit(function (event) {
+            event.preventDefault();
+
+            let actionUrlForm = $('#forgotpassword_popup_form').attr('action');
+
             $.ajax({
                 url: actionUrlForm,
                 type: 'POST',
                 dataType: 'json',
-                data: $(e.target).serializeArray(),
+                data: $(event.target).serializeArray(),
                 showLoader: true,
                 success: function (response) {
                     $('.messages').html('');
@@ -70,4 +62,4 @@ define([
             });
         });
     });
-})
+});

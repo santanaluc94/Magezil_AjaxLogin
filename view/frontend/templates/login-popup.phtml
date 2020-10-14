@@ -10,14 +10,14 @@ use Magezil\AjaxLogin\Helper\Data;
 $_helper = $this->helper(Data::class)->isEnabled();
 ?>
 <?php if ($_helper) : ?>
-    <div class="block-popup-login" id="customer-login-popup" style="display: none;">
+    <div class="block-popup-login" id="customer_login_popup" style="display: none;">
         <div class="block block-popup-new-customer">
             <div class="block-popup-title">
-                <span class="popup-title" id="block-new-customer-heading" aria-level="1">
+                <span class="popup-title" aria-level="1">
                     <?= __('Create New Customer Account') ?>
                 </span>
             </div>
-            <div class="block-content" aria-labelledby="block-new-customer-heading">
+            <div class="block-content">
                 <p><?= __('Creating an account has many benefits:') ?></p>
                 <ul>
                     <li><?= __('See order and shipping status') ?></li>
@@ -36,32 +36,32 @@ $_helper = $this->helper(Data::class)->isEnabled();
         </div>
         <div class="block-customer-login">
             <div class="block-popup-title">
-                <span class="popup-title" id="block-customer-ajaxlogin-heading" aria-level="2">
+                <span class="popup-title" aria-level="2">
                     <?= __('Customer Login') ?>
                 </span>
             </div>
-            <div class="block-popup-content" aria-labelledby="block-customer-login-heading">
-                <form class="form form-popup-login" method="post" id="ajaxlogin-form" action="<?= $block->getUrl('ajaxlogin/ajax/login') ?>">
-                    <div class="fieldset login">
+            <div class="block-popup-content">
+                <form class="form form-popup-login" method="POST" id="login_popup_form" action="<?= $block->getUrl('ajaxlogin/ajax/login') ?>">
+                    <fieldset class="fieldset">
                         <div class="field email required">
-                            <label class="label" for="ajaxlogin-email">
+                            <label class="label" for="login_popup_email">
                                 <span class="custom-field"><?= __('Email Address') ?></span>
                             </label>
                             <div class="control">
-                                <input name="username" id="ajaxlogin-email" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}">
+                                <input name="username" id="login_popup_email" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}">
                             </div>
                         </div>
                         <div class="field password required">
-                            <label for="ajaxlogin-pass" class="label">
+                            <label for="login_popup_password" class="label">
                                 <span class="custom-field"><?= __('Password') ?></span>
                             </label>
                             <div class="control">
-                                <input name="password" type="password" class="input-text" id="ajaxlogin-pass" data-validate="{required:true}">
+                                <input name="password" type="password" class="input-text" id="login_popup_password" data-validate="{required:true}">
                             </div>
                         </div>
                         <div class="actions-toolbar">
                             <div class="secondary link-forgot-password">
-                                <a class="action link-forgot-password" id="forgotpassword-popup" href="<?= $block->getCustomerForgotPasswordUrl() ?>">
+                                <a class="action link-forgot-password" id="forgotpassword_popup" href="<?= $block->getCustomerForgotPasswordUrl() ?>">
                                     <span><?= __('Forgot Your Password?') ?></span>
                                 </a>
                             </div>
@@ -73,15 +73,15 @@ $_helper = $this->helper(Data::class)->isEnabled();
                         </div>
                         <div class="message-popup">
                         </div>
-                    </div>
+                    </fieldset>
                 </form>
             </div>
         </div>
     </div>
     <script type="text/x-magento-init">
         {
-        "#customer-login-popup": {
-            "Magezil_AjaxLogin/js/action/customer-popups": {
+        "#customer_login_popup": {
+            "Magezil_AjaxLogin/js/action/login-popup": {
                 "popupTitle": "<?= __('Sign In') ?>",
                 "innerWidth": "400"
             }

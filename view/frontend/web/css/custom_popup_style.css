@@ -6,6 +6,9 @@
     position: relative;
 }
 
+.modals-overlay {
+    z-index: 800;
+}
 /* Title */
 div.block-popup-login {
     border-bottom: solid 1px #c2c2c2;
